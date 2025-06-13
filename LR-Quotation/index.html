@@ -393,6 +393,27 @@
             .header h1 {
                 font-size: 2.2rem;
             }
+
+            .preview-section {
+                padding: 15px;
+            }
+            
+            .preview-row > div {
+                flex-direction: column !important;
+            }
+            
+            .preview-row > div > div {
+                width: 100% !important;
+                margin-bottom: 20px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+
+            .form-section {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -461,7 +482,7 @@ South Africa</textarea>
             </div>
 
             <div class="totals-section">
-                <h3 style="margin-bottom: 20px; text-align: center; color: var(--primary-gold);">
+                <h3 style="margin-bottom: 20px; text-align: center; color: var(--primary-gold); font-size: 20px;">
                     <i class="fas fa-calculator"></i> Quote Summary
                 </h3>
                 <div class="totals-grid">
@@ -754,72 +775,78 @@ South Africa</textarea>
         // Generate PDF
         async function generatePDF() {
             if (!validateForm()) return;
-            
-            // Show loading indicator
+
             document.getElementById('pdfLoading').style.display = 'flex';
-            
-            // Allow UI to update
             await new Promise(resolve => setTimeout(resolve, 50));
-            
+
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
-            // Add company header
+
+            // Calculate dynamic positions
+            const companyAddressLines = document.getElementById('companyAddress').value.split('\n').length;
+            const companyY = 40 + (companyAddressLines * 5);
+
+            // Company header
             doc.setFontSize(20);
             doc.setFont("helvetica", "bold");
-            doc.setTextColor(0, 0, 0);
             doc.text('LR EXPANSION GROUP', 105, 25, null, null, 'center');
-            
             doc.setFontSize(10);
             doc.setFont("helvetica", "normal");
-            doc.setTextColor(0, 0, 0);
             doc.text('Professional Construction Services & Equipment Hire', 105, 32, null, null, 'center');
-            
+
             // Add decorative line
             doc.setDrawColor(0, 0, 0);
             doc.setLineWidth(0.5);
             doc.line(20, 38, 190, 38);
-            
-            // Add company info
+
+            // Company info (dynamic positioning)
             doc.setFontSize(9);
             const companyAddress = document.getElementById('companyAddress').value.split('\n');
-            doc.text(`Company: ${document.getElementById('companyName').value}`, 20, 45);
+            doc.text(`${document.getElementById('companyName').value}`, 20, 44);
             companyAddress.forEach((line, i) => {
-                doc.text(line, 20, 50 + (i * 5));
+                doc.text(line, 20, 49 + (i * 5));
             });
-            doc.text(`Phone: ${document.getElementById('companyPhone').value}`, 20, 50 + (companyAddress.length * 5));
-            doc.text(`Email: ${document.getElementById('companyEmail').value}`, 20, 55 + (companyAddress.length * 5));
-            
-            // Add quote info
+            doc.text(`Phone: ${document.getElementById('companyPhone').value}`, 20, 49 + (companyAddress.length * 5));
+            doc.text(`Email: ${document.getElementById('companyEmail').value}`, 20, 54 + (companyAddress.length * 5));
+
+            // Quote info (positioned to avoid overlap)
             doc.setFontSize(12);
             doc.setFont("helvetica", "bold");
             doc.text('QUOTATION', 160, 45);
-            
             doc.setFontSize(9);
             doc.setFont("helvetica", "normal");
             doc.text(`Date: ${new Date().toLocaleDateString()}`, 160, 50);
             doc.text(`Quote #: ${document.getElementById('quoteNumber').textContent}`, 160, 55);
             doc.text(`Valid Until: ${new Date(document.getElementById('validUntil').value).toLocaleDateString()}`, 160, 60);
-            
-            // Add client info
+
+            // Client info (dynamic positioning)
+            const clientStartY = companyY + 25;
             doc.setFontSize(10);
             doc.setFont("helvetica", "bold");
-            doc.text('CLIENT INFORMATION', 20, 70);
-            
+            doc.text('CLIENT INFORMATION', 20, clientStartY);
+
             doc.setFontSize(9);
             doc.setFont("helvetica", "normal");
-            doc.text(`Name: ${document.getElementById('clientName').value}`, 20, 75);
+            doc.text(`Name: ${document.getElementById('clientName').value}`, 20, clientStartY + 5);
             const clientAddress = document.getElementById('clientAddress').value.split('\n');
             clientAddress.forEach((line, i) => {
-                doc.text(line, 20, 80 + (i * 5));
+                doc.text(line, 20, clientStartY + 10 + (i * 5));
             });
+
             const clientOffset = clientAddress.length * 5;
+            let clientY = clientStartY + 10 + clientOffset;
+
             if (document.getElementById('clientPhone').value) {
-                doc.text(`Phone: ${document.getElementById('clientPhone').value}`, 20, 80 + clientOffset);
+                doc.text(`Phone: ${document.getElementById('clientPhone').value}`, 20, clientY);
+                clientY += 5;
             }
             if (document.getElementById('clientEmail').value) {
-                doc.text(`Email: ${document.getElementById('clientEmail').value}`, 20, 85 + clientOffset);
+                doc.text(`Email: ${document.getElementById('clientEmail').value}`, 20, clientY);
+            
             }
+
+            // Table positioning (below client info)
+            const tableStartY = clientY + 15;
             
             // Prepare table data
             const items = [];
@@ -841,7 +868,7 @@ South Africa</textarea>
             
             // Add items table
             doc.autoTable({
-                startY: 100,
+                startY: tableStartY,
                 head: [['Description', 'Qty', 'Unit', 'Rate (R)', 'Amount (R)']],
                 body: items,
                 theme: 'grid',
@@ -870,17 +897,17 @@ South Africa</textarea>
             let yPos = doc.lastAutoTable.finalY + 10;
             
             doc.setFontSize(10);
-            doc.text('Subtotal:', 150, yPos);
-            doc.text(`R ${subtotal.toFixed(2)}`, 180, yPos);
+            doc.text('Subtotal:', 130, yPos);
+            doc.text(`R ${subtotal.toFixed(2)}`, 160, yPos);
             yPos += 6;
             
-            doc.text('VAT (0%):', 150, yPos);
-            doc.text(`R ${vat.toFixed(2)}`, 180, yPos);
+            doc.text('VAT (0%):', 130, yPos);
+            doc.text(`R ${vat.toFixed(2)}`, 160, yPos);
             yPos += 8;
             
             doc.setFont("helvetica", "bold");
-            doc.text('TOTAL:', 150, yPos);
-            doc.text(`R ${total.toFixed(2)}`, 180, yPos);
+            doc.text('TOTAL:', 130, yPos);
+            doc.text(`R ${total.toFixed(2)}`, 160, yPos);
             yPos += 15;
             
             // Add terms
