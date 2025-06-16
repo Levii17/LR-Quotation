@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LR Expansion Group - Professional Invoice Generator</title>
+    <title>LR Expansion Group - Professional Quote Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -196,6 +196,11 @@
             box-shadow: var(--shadow-card);
         }
 
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
         .btn-danger {
             background: #dc3545;
             color: white;
@@ -348,7 +353,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* New Material Selection Styles */
+        /* Material Section Styles */
         .material-section {
             background: var(--tertiary-dark);
             padding: 25px;
@@ -456,6 +461,29 @@
             color: var(--text-light);
         }
 
+        /* Custom Material Form - Responsive */
+        .custom-material-form {
+            background: var(--secondary-dark);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .custom-material-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .custom-material-form .form-group {
+            margin-bottom: 0;
+        }
+        
+        .custom-material-form input {
+            width: 100%;
+        }
+        
         .material-preview {
             display: flex;
             flex-direction: column;
@@ -480,6 +508,7 @@
             justify-content: space-between;
             width: 100%;
             padding: 10px 0;
+            gap: 50px;
             border-bottom: 1px solid var(--tertiary-dark);
         }
 
@@ -487,13 +516,17 @@
             border-bottom: none;
         }
 
-        .custom-material-form {
-            background: var(--secondary-dark);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-top: 20px;
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .custom-material-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .custom-material-grid .btn {
+                grid-column: span 2;
+            }
         }
-
+        
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -545,6 +578,58 @@
 
             .material-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .material-tabs {
+                flex-direction: column;
+            }
+            
+            .material-tab {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .custom-material-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .custom-material-grid .btn {
+                grid-column: span 1;
+            }
+            
+            .preview-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .preview-item .btn {
+                align-self: flex-end;
+                margin-top: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .material-section {
+                padding: 15px;
+            }
+            
+            .material-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -601,7 +686,7 @@ South Africa</textarea>
                 </div>
             </div>
 
-            <!-- New Material Selection Section -->
+            <!-- Material Selection Section -->
             <div class="material-section">
                 <div class="material-header">
                     <h3 class="section-title"><i class="fas fa-paint-roller"></i> Material Selection</h3>
@@ -625,7 +710,7 @@ South Africa</textarea>
                                 <div class="material-price">R 350/m²</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'floor1')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'floor1')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -636,7 +721,7 @@ South Africa</textarea>
                                 <div class="material-price">R 850/m²</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'floor2')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'floor2')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -647,7 +732,7 @@ South Africa</textarea>
                                 <div class="material-price">R 420/m²</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'floor3')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'floor3')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -658,7 +743,7 @@ South Africa</textarea>
                                 <div class="material-price">R 380/m²</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'floor4')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'floor4')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -673,7 +758,7 @@ South Africa</textarea>
                                 <div class="material-price">R 650/5L</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'paint1')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'paint1')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -684,7 +769,7 @@ South Africa</textarea>
                                 <div class="material-price">R 750/5L</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'paint2')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'paint2')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -695,7 +780,7 @@ South Africa</textarea>
                                 <div class="material-price">R 180/L</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'paint3')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'paint3')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -706,7 +791,7 @@ South Africa</textarea>
                                 <div class="material-price">R 350/5L</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'paint4')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'paint4')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -721,7 +806,7 @@ South Africa</textarea>
                                 <div class="material-price">R 280/m²</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'tile1')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'tile1')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -732,7 +817,7 @@ South Africa</textarea>
                                 <div class="material-price">R 420/m²</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'tile2')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'tile2')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -743,7 +828,7 @@ South Africa</textarea>
                                 <div class="material-price">R 150/sheet</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'tile3')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'tile3')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -754,7 +839,7 @@ South Africa</textarea>
                                 <div class="material-price">R 680/m²</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'tile4')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'tile4')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -769,7 +854,7 @@ South Africa</textarea>
                                 <div class="material-price">R 850/set</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'fix1')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'fix1')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -780,7 +865,7 @@ South Africa</textarea>
                                 <div class="material-price">R 450/unit</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'fix2')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'fix2')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -791,7 +876,7 @@ South Africa</textarea>
                                 <div class="material-price">R 220/set</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'fix3')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'fix3')">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -802,26 +887,37 @@ South Africa</textarea>
                                 <div class="material-price">R 1200/set</div>
                                 <div class="material-actions">
                                     <input type="number" min="1" value="1" class="material-qty">
-                                    <button class="btn" style="padding: 8px 12px;" onclick="selectMaterial(event, 'fix4')">Select</button>
+                                    <button class="btn btn-sm" onclick="selectMaterial(event, 'fix4')">Select</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Responsive Custom Material Form -->
                 <div class="custom-material-form">
                     <h4><i class="fas fa-plus-circle"></i> Add Custom Material</h4>
-                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; margin-top: 15px;">
-                        <input type="text" id="customMaterialName" placeholder="Material Name" class="form-control">
-                        <input type="text" id="customMaterialUnit" placeholder="Unit" class="form-control">
-                        <input type="number" id="customMaterialPrice" placeholder="Price" class="form-control">
-                        <button class="btn" style="padding: 10px 15px;" onclick="addCustomMaterial()">Add</button>
+                    <div class="custom-material-grid">
+                        <div class="form-group">
+                            <input type="text" id="customMaterialName" placeholder="Material Name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="customMaterialUnit" placeholder="Unit" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="customMaterialPrice" placeholder="Price" class="form-control">
+                        </div>
+                        <div>
+                            <button class="btn" onclick="addCustomMaterial()">Add</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="material-preview" id="materialPreview" style="display: none;">
+                <div class="material-preview" id="materialPreview">
                     <div class="preview-title">Selected Materials</div>
-                    <div id="selectedMaterialsList" style="width: 100%;"></div>
+                    <div id="selectedMaterialsList">
+                        <!-- Selected materials will appear here -->
+                    </div>
                 </div>
             </div>
 
@@ -1015,16 +1111,15 @@ South Africa</textarea>
                 materialDiv.className = 'preview-item';
                 
                 materialDiv.innerHTML = `
-                    <div style="flex: 1;">
+                    <div>
                         <div>${material.name}</div>
                         <div style="font-size: 0.9em; color: var(--text-muted);">
                             ${material.qty} ${material.unit} @ R ${material.price.toFixed(2)}/unit
                         </div>
                     </div>
                     <div style="font-weight: bold;">R ${(material.qty * material.price).toFixed(2)}</div>
-                    <button class="btn btn-danger" style="padding: 5px 8px; margin-left: 10px;" 
-                            onclick="removeMaterial('${id}')">
-                        <i class="fas fa-trash"></i>
+                    <button class="btn btn-danger btn-sm" onclick="removeMaterial('${id}')">
+                        <i class="fas fa-trash"></i> Remove
                     </button>
                 `;
                 
@@ -1076,19 +1171,21 @@ South Africa</textarea>
             
             // Update preview
             updateMaterialPreview();
+            
+            // Show success message
+            alert(`"${name}" has been added to your materials selection!`);
         }
 
-        // Add Selected Materials to Materials List (NOT to quote items)
+        // Add Selected Materials to Materials List
         function addSelectedMaterials() {
             if (Object.keys(selectedMaterials).length === 0) {
                 alert('Please select at least one material');
                 return;
             }
             
+            // Add to materials list for PDF
             Object.keys(selectedMaterials).forEach(id => {
                 const material = selectedMaterials[id];
-                
-                // Add to quote materials for PDF (NOT to the quote items)
                 quoteMaterials.push({
                     name: material.name,
                     qty: material.qty,
@@ -1103,10 +1200,10 @@ South Africa</textarea>
             updateMaterialPreview();
             
             // Show confirmation
-            alert(`${quoteMaterials.length} material(s) added to quote. They will appear in the Materials Summary section of the PDF.`);
+            alert(`${quoteMaterials.length} material(s) added to quote! They will appear in the Materials Summary section of the PDF.`);
         }
 
-        // Add new service item row
+        // Add new item row
         function addItem() {
             itemCount++;
             const container = document.getElementById('itemsContainer');
@@ -1119,7 +1216,7 @@ South Africa</textarea>
                 <div class="form-group">
                     <label>Description</label>
                     <select onchange="updateItemFromTemplate(${itemCount}, this.value)">
-                        <option value="">Select service or enter custom</option>
+                        <option value="">Select service</option>
                         <optgroup label="Residential Construction">
                             ${serviceTemplates.residential.map((item, i) => 
                                 `<option value="residential-${i}">${item.name}</option>`
@@ -1216,7 +1313,7 @@ South Africa</textarea>
             updateTotals();
         }
 
-        // Update totals calculation (services only)
+        // Update totals calculation
         function updateTotals() {
             let subtotal = 0;
             const items = document.querySelectorAll('.item-row');
@@ -1263,24 +1360,7 @@ South Africa</textarea>
             document.getElementById('previewQuoteNumber').textContent = document.getElementById('quoteNumber').textContent;
             document.getElementById('previewDate').textContent = new Date().toLocaleDateString();
             document.getElementById('previewValidUntil').textContent = new Date(document.getElementById('validUntil').value).toLocaleDateString();
-            
-            // Calculate total including materials
-            let servicesTotal = 0;
-            document.querySelectorAll('.item-row').forEach(item => {
-                const id = item.id.split('-')[1];
-                const qty = parseFloat(document.getElementById(`qty-${id}`).value) || 0;
-                const rate = parseFloat(document.getElementById(`rate-${id}`).value) || 0;
-                servicesTotal += qty * rate;
-            });
-            
-            let materialsTotal = 0;
-            quoteMaterials.forEach(material => {
-                materialsTotal += material.amount;
-            });
-            
-            const total = servicesTotal + materialsTotal;
-            document.getElementById('previewTotal').textContent = `R ${total.toFixed(2)}`;
-            document.getElementById('total').textContent = `R ${total.toFixed(2)}`;
+            document.getElementById('previewTotal').textContent = document.getElementById('total').textContent;
             
             document.getElementById('previewCompany').innerHTML = 
                 `<strong>${document.getElementById('companyName').value}</strong><br>
@@ -1374,9 +1454,9 @@ South Africa</textarea>
             // Table positioning (below client info)
             const tableStartY = clientY + 15;
             
-            // Prepare services table data
-            const serviceItems = [];
-            let servicesTotal = 0;
+            // Prepare table data
+            const items = [];
+            let subtotal = 0;
             
             document.querySelectorAll('.item-row').forEach(item => {
                 const id = item.id.split('-')[1];
@@ -1387,83 +1467,69 @@ South Africa</textarea>
                 const amount = qty * rate;
                 
                 if (desc && qty && rate) {
-                    serviceItems.push([desc, qty, unit, `R ${rate.toFixed(2)}`, `R ${amount.toFixed(2)}`]);
-                    servicesTotal += amount;
+                    items.push([desc, qty, unit, `R ${rate.toFixed(2)}`, `R ${amount.toFixed(2)}`]);
+                    subtotal += amount;
                 }
             });
             
-            // Add services table only if there are services
-            if (serviceItems.length > 0) {
-                doc.autoTable({
-                    startY: tableStartY,
-                    head: [['Service Description', 'Qty', 'Unit', 'Rate (R)', 'Amount (R)']],
-                    body: serviceItems,
-                    theme: 'grid',
-                    headStyles: {
-                        fillColor: [33, 33, 33],
-                        textColor: [212, 175, 55],
-                        fontStyle: 'bold'
-                    },
-                    styles: {
-                        cellPadding: 3,
-                        fontSize: 9,
-                        textColor: [255, 255, 255],
-                        fillColor: [42, 42, 42]
-                    },
-                    alternateRowStyles: {
-                        fillColor: [35, 35, 35]
-                    }
-                });
-            }
+            // Add items table
+            doc.autoTable({
+                startY: tableStartY,
+                head: [['Description', 'Qty', 'Unit', 'Rate (R)', 'Amount (R)']],
+                body: items,
+                theme: 'grid',
+                headStyles: {
+                    fillColor: [33, 33, 33],
+                    textColor: [212, 175, 55],
+                    fontStyle: 'bold'
+                },
+                styles: {
+                    cellPadding: 3,
+                    fontSize: 9,
+                    textColor: [255, 255, 255],
+                    fillColor: [42, 42, 42]
+                },
+                alternateRowStyles: {
+                    fillColor: [35, 35, 35]
+                }
+            });
             
-            // Calculate totals
-            const vat = servicesTotal * 0;
-            const totalServices = servicesTotal + vat;
-            let yPos = tableStartY + 20;
+            // Add totals
+            const vat = subtotal * 0;
+            const total = subtotal + vat;
+            const lastPageNumber = doc.internal.getNumberOfPages();
+            doc.setPage(lastPage);
             
-            if (serviceItems.length > 0) {
-                const lastPage = doc.internal.getNumberOfPages();
-                doc.setPage(lastPage);
-                yPos = doc.lastAutoTable.finalY + 10;
-            }
+            let yPos = doc.lastAutoTable.finalY + 10;
             
-            // Add services totals
-            if (serviceItems.length > 0) {
-                doc.setFontSize(10);
-                doc.text('Services Subtotal:', 130, yPos);
-                doc.text(`R ${servicesTotal.toFixed(2)}`, 160, yPos);
-                yPos += 6;
-                
-                doc.text('VAT (0%):', 130, yPos);
-                doc.text(`R ${vat.toFixed(2)}`, 160, yPos);
-                yPos += 8;
-                
-                doc.setFont("helvetica", "bold");
-                doc.text('Services Total:', 130, yPos);
-                doc.text(`R ${totalServices.toFixed(2)}`, 160, yPos);
-                yPos += 15;
-            }
+            doc.setFontSize(10);
+            doc.text('Subtotal:', 130, yPos);
+            doc.text(`R ${subtotal.toFixed(2)}`, 160, yPos);
+            yPos += 6;
+            
+            doc.text('VAT (0%):', 130, yPos);
+            doc.text(`R ${vat.toFixed(2)}`, 160, yPos);
+            yPos += 8;
+            
+            doc.setFont("helvetica", "bold");
+            doc.text('TOTAL:', 130, yPos);
+            doc.text(`R ${total.toFixed(2)}`, 160, yPos);
+            yPos += 15;
             
             // Add materials summary if materials exist
             if (quoteMaterials.length > 0) {
-                // Add a new page for materials if there are services
-                if (serviceItems.length > 0) {
-                    doc.addPage();
-                    doc.setPage(doc.internal.getNumberOfPages());
-                    yPos = 20;
-                }
+                doc.addPage();
+                doc.setPage(doc.internal.getNumberOfPages());
                 
                 // Materials header
                 doc.setFontSize(16);
                 doc.setFont("helvetica", "bold");
-                doc.text('MATERIALS SUMMARY', 105, yPos, null, null, 'center');
-                yPos += 10;
+                doc.text('SELECTED MATERIALS SUMMARY', 105, 20, null, null, 'center');
                 
                 // Decorative line
                 doc.setDrawColor(0, 0, 0);
                 doc.setLineWidth(0.5);
-                doc.line(20, yPos, 190, yPos);
-                yPos += 15;
+                doc.line(20, 25, 190, 25);
                 
                 // Prepare materials table
                 const materialsData = quoteMaterials.map(material => [
@@ -1476,8 +1542,8 @@ South Africa</textarea>
                 
                 // Add materials table
                 doc.autoTable({
-                    startY: yPos,
-                    head: [['Material Description', 'Qty', 'Unit', 'Unit Price (R)', 'Amount (R)']],
+                    startY: 30,
+                    head: [['Material', 'Qty', 'Unit', 'Unit Price (R)', 'Total (R)']],
                     body: materialsData,
                     theme: 'grid',
                     headStyles: {
@@ -1507,14 +1573,6 @@ South Africa</textarea>
                 doc.setFont("helvetica", "bold");
                 doc.text('Materials Total:', 130, materialsYPos);
                 doc.text(`R ${materialsTotal.toFixed(2)}`, 160, materialsYPos);
-                materialsYPos += 8;
-                
-                // Add grand total if both services and materials exist
-                if (serviceItems.length > 0) {
-                    doc.setFontSize(12);
-                    doc.text('GRAND TOTAL:', 130, materialsYPos + 10);
-                    doc.text(`R ${(totalServices + materialsTotal).toFixed(2)}`, 160, materialsYPos + 10);
-                }
             }
             
             // Add terms on the last page
