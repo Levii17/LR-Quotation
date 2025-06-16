@@ -508,7 +508,7 @@
             justify-content: space-between;
             width: 100%;
             padding: 10px 0;
-            gap: 50px;
+            gap: 25px;
             border-bottom: 1px solid var(--tertiary-dark);
         }
 
@@ -1497,8 +1497,8 @@ South Africa</textarea>
             // Add totals
             const vat = subtotal * 0;
             const total = subtotal + vat;
-            const lastPageNumber = doc.internal.getNumberOfPages();
-            doc.setPage(lastPage);
+            const lastMaterialsPage = doc.internal.getNumberOfPages();
+            doc.setPage(lastMaterialsPage);
             
             let yPos = doc.lastAutoTable.finalY + 10;
             
